@@ -1,0 +1,155 @@
+CREATE TABLE Usuario (
+    id_usuario INT PRIMARY KEY IDENTITY(1,1),
+    nombre NVARCHAR(100) NOT NULL,
+    correo NVARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE Categoria (
+    id_categoria INT PRIMARY KEY IDENTITY(1,1),
+    nombre NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Pago (
+    id_pago INT PRIMARY KEY IDENTITY(1,1),
+    id_usuario INT,
+    id_categoria INT,
+    monto DECIMAL(10, 2) NOT NULL,
+    fecha DATE NOT NULL,
+    descripcion NVARCHAR(255),
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_categoria) REFERENCES Categoria(id_categoria)
+);
+
+INSERT INTO Usuario (nombre, correo) 
+VALUES
+('Juan Pérez', 'juan.perez@example.com'),
+('Ana Martínez', 'ana.martinez@example.com'),
+('Carlos López', 'carlos.lopez@example.com'),
+('Laura García', 'laura.garcia@example.com'),
+('Luis Gómez', 'luis.gomez@example.com'),
+('María Rodríguez', 'maria.rodriguez@example.com'),
+('Pedro Sánchez', 'pedro.sanchez@example.com'),
+('Isabel Fernández', 'isabel.fernandez@example.com'),
+('David Díaz', 'david.diaz@example.com'),
+('Patricia Pérez', 'patricia.perez@example.com'),
+('Antonio López', 'antonio.lopez@example.com'),
+('Carmen García', 'carmen.garcia@example.com'),
+('José Hernández', 'jose.hernandez@example.com'),
+('Marta Martín', 'marta.martin@example.com'),
+('Andrés Pérez', 'andres.perez@example.com'),
+('Elena Rodríguez', 'elena.rodriguez@example.com'),
+('Raúl Gómez', 'raul.gomez@example.com'),
+('Sofía González', 'sofia.gonzalez@example.com'),
+('Gabriel López', 'gabriel.lopez@example.com'),
+('Rosa Sánchez', 'rosa.sanchez@example.com'),
+('Álvaro Martínez', 'alvaro.martinez@example.com'),
+('Verónica Díaz', 'veronica.diaz@example.com'),
+('Carlos Fernández', 'carlos.fernandez@example.com'),
+('Lucía González', 'lucia.gonzalez@example.com'),
+('Juan Fernández', 'juan.fernandez@example.com'),
+('Sandra Rodríguez', 'sandra.rodriguez@example.com'),
+('Javier López', 'javier.lopez@example.com'),
+('Patricia García', 'patricia.garcia@example.com'),
+('Francisco Pérez', 'francisco.perez@example.com');
+
+INSERT INTO Categoria (nombre) 
+VALUES
+('Supermercado'),
+('Transporte'),
+('Entretenimiento'),
+('Educación'),
+('Salud'),
+('Ropa'),
+('Tecnología'),
+('Alquiler'),
+('Gimnasio'),
+('Viajes'),
+('Comida rápida'),
+('Servicios públicos'),
+('Cultura'),
+('Hogar'),
+('Deportes'),
+('Belleza'),
+('Mascotas'),
+('Libros'),
+('Reparaciones'),
+('Regalos'),
+('Fiestas'),
+('Telefonía'),
+('Internet'),
+('Seguros'),
+('Cafetería'),
+('Productos de limpieza'),
+('Estética'),
+('Gastos bancarios');
+
+INSERT INTO Pago (id_usuario, id_categoria, monto, fecha, descripcion) 
+VALUES
+(1, 1, 120.50, '2024-01-10', 'Compra de supermercado'),
+(2, 2, 25.00, '2024-01-15', 'Taxi al trabajo'),
+(3, 3, 45.00, '2024-02-01', 'Entrada al cine'),
+(4, 4, 200.00, '2024-03-20', 'Pago de matrícula'),
+(5, 5, 80.75, '2024-04-05', 'Consulta médica'),
+(6, 6, 130.00, '2024-05-15', 'Compra de ropa'),
+(7, 7, 300.00, '2024-06-12', 'Compra de celular'),
+(8, 8, 500.00, '2024-07-10', 'Pago de alquiler'),
+(9, 9, 120.00, '2024-08-08', 'Membresía al gimnasio'),
+(10, 10, 400.00, '2024-09-09', 'Pasajes de avión'),
+(11, 1, 200.00, '2024-10-01', 'Compra de comida semanal'),
+(12, 2, 15.00, '2024-10-05', 'Pasaje de bus'),
+(13, 3, 50.00, '2024-10-10', 'Entrada al teatro'),
+(14, 4, 250.00, '2024-10-12', 'Curso de programación'),
+(15, 5, 90.00, '2024-10-15', 'Consulta dental'),
+(16, 6, 110.00, '2024-10-18', 'Compra de zapatos'),
+(17, 7, 150.00, '2024-10-20', 'Reparación celular'),
+(18, 8, 450.00, '2024-10-21', 'Alquiler mensual de apartamento'),
+(19, 9, 90.00, '2024-10-25', 'Salidas de fin de semana'),
+(20, 10, 150.00, '2024-10-30', 'Pago de seguro de salud'),
+(21, 11, 60.00, '2024-11-02', 'Compra de frutas y verduras'),
+(22, 12, 25.00, '2024-11-05', 'Servicios de internet'),
+(23, 13, 40.00, '2024-11-10', 'Suscripción a streaming'),
+(24, 14, 200.00, '2024-11-12', 'Compra de libros para estudios'),
+(25, 15, 70.00, '2024-11-15', 'Medicamentos para la gripe'),
+(26, 16, 190.00, '2024-11-18', 'Compra de laptop'),
+(27, 17, 250.00, '2024-11-20', 'Reparación del coche'),
+(28, 18, 450.00, '2024-11-22', 'Pago mensual de alquiler');
+
+---Consulta de todos los usuarios
+SELECT * FROM Usuario;
+
+--Consulta de todos los pagos realizados por un usuario específico
+SELECT p.id_pago, p.monto, p.fecha, p.descripcion, c.nombre AS categoria
+FROM Pago p
+JOIN Categoria c ON p.id_categoria = c.id_categoria
+WHERE p.id_usuario = 1; -- Cambia el ID de usuario si lo deseas
+
+--Consulta de los pagos en una categoría específica
+SELECT p.id_pago, u.nombre AS usuario, p.monto, p.fecha, p.descripcion
+FROM Pago p
+JOIN Usuario u ON p.id_usuario = u.id_usuario
+WHERE p.id_categoria = 2; -- Cambia el ID de la categoría si lo deseas
+
+--Consulta de todos los usuarios y sus respectivos pagos
+SELECT u.nombre, p.id_pago, p.monto, p.fecha, c.nombre AS categoria
+FROM Usuario u
+LEFT JOIN Pago p ON u.id_usuario = p.id_usuario
+LEFT JOIN Categoria c ON p.id_categoria = c.id_categoria;
+
+--Consulta del total de dinero gastado por cada usuario
+SELECT u.nombre, SUM(p.monto) AS total_gastado
+FROM Usuario u
+JOIN Pago p ON u.id_usuario = p.id_usuario
+GROUP BY u.nombre;
+
+--Consulta de los pagos realizados en un rango de fechas
+SELECT u.nombre, p.id_pago, p.monto, p.fecha, c.nombre AS categoria
+FROM Pago p
+JOIN Usuario u ON p.id_usuario = u.id_usuario
+JOIN Categoria c ON p.id_categoria = c.id_categoria
+WHERE p.fecha BETWEEN '2024-01-01' AND '2024-06-30'; -- Cambia el rango de fechas si lo deseas
+
+--Consulta de los usuarios que han realizado pagos en una categoría específica
+SELECT DISTINCT u.nombre
+FROM Usuario u
+JOIN Pago p ON u.id_usuario = p.id_usuario
+WHERE p.id_categoria = 3; -- Cambia el ID de la categoría si lo deseas
